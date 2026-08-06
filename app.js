@@ -184,8 +184,9 @@
       label.textContent = "Dein Fußballer";
       word.textContent = role.word;
       word.classList.remove("imposter");
-      hint.textContent = "";
-      hint.classList.remove("visible");
+      // Hilfe für den Fall, dass man den Spieler nicht kennt: Position + Nationalland
+      hint.textContent = state.word.hint;
+      hint.classList.add("visible");
     }
   }
 

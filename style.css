@@ -217,10 +217,11 @@ body::before {
 .reveal-word { font-size: 30px; font-weight: 800; line-height: 1.15; }
 .reveal-word.imposter { color: var(--danger); }
 .reveal-hint {
-  margin-top: 14px; font-size: 15px; color: #4a6b58; font-weight: 600;
-  opacity: 0; height: 0; transition: opacity .2s;
+  display: none; margin-top: 18px; font-size: 14px; font-weight: 700;
+  color: #3f6151; background: #e9f4ed; border: 1px solid #d5e8dc;
+  border-radius: 999px; padding: 8px 16px; letter-spacing: 0.2px;
 }
-.reveal-hint.visible { opacity: 1; height: auto; }
+.reveal-hint.visible { display: inline-block; animation: fade .25s ease; }
 .btn-hide { margin-top: 30px; }
 .pass-reveal .btn-hide { background: var(--green-700); color: #fff; }
 
