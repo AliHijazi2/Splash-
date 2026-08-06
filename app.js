@@ -223,7 +223,7 @@
     setTimer(0);
     var line = $("starter-line");
     if (state.randomStarter) {
-      line.textContent = playerLabel(state.starter) + " beginnt mit dem Beschreiben.";
+      line.textContent = playerLabel(state.starter) + " beginnt.";
       line.style.display = "";
     } else {
       line.style.display = "none";

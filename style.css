@@ -232,7 +232,6 @@ body::before {
    ============================================================ */
 #screen-play { justify-content: center; }
 .play-inner { text-align: center; }
-.play-inner h2 { font-size: 26px; margin: 16px 0 6px; }
 .play-sub { color: var(--lime); font-weight: 700; font-size: 16px; margin: 0 0 18px; }
 
 .timer-card {
@@ -254,7 +253,6 @@ body::before {
 .timer-controls { display: flex; gap: 10px; }
 .timer-controls .btn { flex: 1; }
 
-.play-explain { color: rgba(255, 255, 255, 0.6); font-size: 14.5px; line-height: 1.55; margin: 0 4px 22px; }
 
 /* ============================================================
    Result-Screen
