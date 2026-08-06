@@ -70,6 +70,8 @@ body::before {
   box-shadow: var(--shadow), inset 0 2px 0 rgba(255, 255, 255, 0.25);
 }
 .hero-badge.small { width: 62px; height: 62px; border-radius: 20px; }
+.hero-badge.logo { background: none; padding: 0; overflow: hidden; }
+.logo-img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit; }
 
 /* Icons (SVG statt Emoji) */
 .ic { display: block; }
@@ -80,7 +82,7 @@ body::before {
 .hero h1 {
   margin: 0; font-size: 34px; line-height: 1.02; font-weight: 800; letter-spacing: -0.5px;
 }
-.hero h1 span { display: block; color: var(--lime); }
+.hero h1 span { color: var(--lime); }
 .subtitle { margin: 8px 0 0; color: rgba(255, 255, 255, 0.6); font-size: 15px; }
 
 /* ---------- Card ---------- */

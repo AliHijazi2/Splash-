@@ -1,4 +1,4 @@
-# Fußball Imposter
+# KickGuess
 
 Ein Party-Spiel im Stil von **Splash / Imposter** – aber alles dreht sich um Fußballer.
 
