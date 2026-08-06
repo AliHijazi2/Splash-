@@ -15,7 +15,8 @@
     roles: [],        // pro Spieler: { imposter: bool, word: string, hint: string }
     word: null,       // aktueller Fußballer der Runde
     imposterIdx: [],  // Indizes der Imposter
-    current: 0,       // aktueller Spieler beim Aufdecken
+    order: [],        // zufällige Ziehreihenfolge (Spieler-Indizes)
+    current: 0,       // aktueller Schritt beim Aufdecken (Position in order)
     starter: 0
   };
 
@@ -143,9 +144,18 @@
       });
     }
 
+    // Zufällige Ziehreihenfolge: die Karten kommen gemischt, nicht 1..N
+    var order = [];
+    for (var q = 0; q < state.players; q++) order.push(q);
+    shuffle(order);
+    state.order = order;
+
     state.current = 0;
     state.starter = Math.floor(Math.random() * state.players);
   }
+
+  // aktueller Spieler-Index gemäß zufälliger Ziehreihenfolge
+  function currentPlayer() { return state.order[state.current]; }
 
   // ---------- Reveal ----------
   var isRevealed = false;
@@ -164,12 +174,12 @@
     var card = $("pass-card");
     card.classList.remove("flipped");
     isRevealed = false;
-    $("player-num").textContent = playerLabel(state.current);
+    $("player-num").textContent = playerLabel(currentPlayer());
     renderDots();
   }
 
   function fillRevealContent() {
-    var role = state.roles[state.current];
+    var role = state.roles[currentPlayer()];
     var label = $("reveal-label");
     var word = $("reveal-word");
     var hint = $("reveal-hint");
