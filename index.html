@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b6b3a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Fußball Imposter</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ========================= SETUP ========================= -->
+    <section id="screen-setup" class="screen active">
+      <div class="hero">
+        <div class="hero-badge">⚽</div>
+        <h1>Fußball<span>Imposter</span></h1>
+        <p class="subtitle">Wer kennt den Spieler nicht?</p>
+      </div>
+
+      <div class="card">
+        <div class="field">
+          <label>Anzahl Spieler</label>
+          <div class="stepper" data-stepper="players">
+            <button class="step-btn" data-dir="-1" aria-label="weniger">−</button>
+            <span class="step-value" id="players-value">4</span>
+            <button class="step-btn" data-dir="1" aria-label="mehr">+</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Anzahl Imposter</label>
+          <div class="stepper" data-stepper="imposters">
+            <button class="step-btn" data-dir="-1" aria-label="weniger">−</button>
+            <span class="step-value" id="imposters-value">1</span>
+            <button class="step-btn" data-dir="1" aria-label="mehr">+</button>
+          </div>
+        </div>
+
+        <div class="field field-row">
+          <div class="field-text">
+            <label>Hinweis für Imposter</label>
+            <small>Der Imposter bekommt einen kleinen Tipp (z.&nbsp;B. Position)</small>
+          </div>
+          <button class="toggle" id="hint-toggle" role="switch" aria-checked="false"></button>
+        </div>
+
+        <div class="field field-row">
+          <div class="field-text">
+            <label>Startspieler zufällig</label>
+            <small>Wer die Runde beginnt wird ausgelost</small>
+          </div>
+          <button class="toggle on" id="starter-toggle" role="switch" aria-checked="true"></button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-big" id="start-btn">Spiel starten</button>
+      <p class="hint-text">Ein Handy reihum – jeder sieht heimlich sein Wort.</p>
+    </section>
+
+    <!-- ========================= REVEAL ========================= -->
+    <section id="screen-reveal" class="screen">
+      <div class="reveal-top">
+        <div class="progress-dots" id="progress-dots"></div>
+      </div>
+
+      <div class="reveal-body">
+        <div class="pass-card" id="pass-card">
+          <div class="pass-front" id="pass-front">
+            <div class="player-num" id="player-num">Spieler 1</div>
+            <div class="tap-icon">👆</div>
+            <p class="pass-instruction">Nimm das Handy und<br/>tippe zum Aufdecken</p>
+          </div>
+
+          <div class="pass-reveal" id="pass-reveal">
+            <div class="reveal-label" id="reveal-label">Dein Fußballer</div>
+            <div class="reveal-word" id="reveal-word">—</div>
+            <div class="reveal-hint" id="reveal-hint"></div>
+            <button class="btn btn-dark btn-hide" id="hide-btn">Verstanden – verdecken</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-foot">
+        <button class="btn btn-ghost" id="reveal-quit">Abbrechen</button>
+      </div>
+    </section>
+
+    <!-- ========================= PLAY ========================= -->
+    <section id="screen-play" class="screen">
+      <div class="play-inner">
+        <div class="hero-badge small">🕵️</div>
+        <h2>Alle haben ihr Wort!</h2>
+        <p class="play-sub" id="starter-line"></p>
+
+        <div class="timer-card">
+          <div class="timer-display" id="timer-display">00:00</div>
+          <div class="timer-btns">
+            <button class="chip" data-timer="60">1:00</button>
+            <button class="chip" data-timer="120">2:00</button>
+            <button class="chip" data-timer="180">3:00</button>
+          </div>
+          <div class="timer-controls">
+            <button class="btn btn-dark" id="timer-toggle">Start</button>
+            <button class="btn btn-ghost" id="timer-reset">Reset</button>
+          </div>
+        </div>
+
+        <p class="play-explain">Beschreibt reihum euren Spieler – aber verratet ihn nicht zu direkt! Danach stimmt ab, wer der Imposter ist.</p>
+
+        <button class="btn btn-primary btn-big" id="resolve-btn">Auflösen</button>
+      </div>
+    </section>
+
+    <!-- ========================= RESULT ========================= -->
+    <section id="screen-result" class="screen">
+      <div class="result-inner">
+        <div class="result-badge">🎭</div>
+        <p class="result-kicker">Das Wort war</p>
+        <div class="result-word" id="result-word">—</div>
+
+        <div class="result-imposters">
+          <p class="result-kicker" id="imposter-kicker">Der Imposter war</p>
+          <div class="imposter-list" id="imposter-list"></div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary btn-big" id="again-btn">Neue Runde</button>
+          <button class="btn btn-ghost" id="new-game-btn">Neues Spiel</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="players.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
