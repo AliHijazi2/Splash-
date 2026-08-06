@@ -137,7 +137,7 @@
 
     if (role.imposter) {
       label.textContent = "Psst …";
-      word.textContent = "Du bist der Imposter 🕵️";
+      word.textContent = "Du bist der Imposter";
       word.classList.add("imposter");
       hint.textContent = role.hint ? "Tipp: " + role.hint : "";
       hint.classList.toggle("visible", !!role.hint);
@@ -245,7 +245,7 @@
     state.imposterIdx.forEach(function (i) {
       var chip = document.createElement("div");
       chip.className = "imposter-chip";
-      chip.innerHTML = "<span class='ic-badge'>🕵️</span> Spieler " + (i + 1);
+      chip.textContent = "Spieler " + (i + 1);
       list.appendChild(chip);
     });
 
