@@ -10,6 +10,7 @@
     imposters: 1,
     hint: false,
     randomStarter: true,
+    names: [],        // eigene Spielernamen (optional)
     // Runde
     roles: [],        // pro Spieler: { imposter: bool, word: string, hint: string }
     word: null,       // aktueller Fußballer der Runde
@@ -31,6 +32,12 @@
   }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+  // Anzeigename: eigener Name falls eingegeben, sonst "Spieler N"
+  function playerLabel(i) {
+    var n = (state.names[i] || "").trim();
+    return n || ("Spieler " + (i + 1));
+  }
+
   function showScreen(id) {
     var screens = document.querySelectorAll(".screen");
     for (var i = 0; i < screens.length; i++) screens[i].classList.remove("active");
@@ -51,6 +58,38 @@
     clampImposters();
     $("players-value").textContent = state.players;
     $("imposters-value").textContent = state.imposters;
+    renderNames();
+  }
+
+  // Namensfelder passend zur Spielerzahl aufbauen (Eingaben bleiben erhalten)
+  function renderNames() {
+    var list = $("names-list");
+    if (!list) return;
+    list.innerHTML = "";
+    for (var i = 0; i < state.players; i++) {
+      var row = document.createElement("div");
+      row.className = "name-row";
+
+      var num = document.createElement("span");
+      num.className = "name-num";
+      num.textContent = (i + 1);
+
+      var input = document.createElement("input");
+      input.type = "text";
+      input.className = "name-input";
+      input.placeholder = "Spieler " + (i + 1);
+      input.value = state.names[i] || "";
+      input.maxLength = 20;
+      input.autocomplete = "off";
+      input.setAttribute("aria-label", "Name Spieler " + (i + 1));
+      (function (idx) {
+        input.addEventListener("input", function () { state.names[idx] = this.value; });
+      })(i);
+
+      row.appendChild(num);
+      row.appendChild(input);
+      list.appendChild(row);
+    }
   }
 
   function bindSteppers() {
@@ -125,7 +164,7 @@
     var card = $("pass-card");
     card.classList.remove("flipped");
     isRevealed = false;
-    $("player-num").textContent = "Spieler " + (state.current + 1);
+    $("player-num").textContent = playerLabel(state.current);
     renderDots();
   }
 
@@ -173,7 +212,7 @@
     setTimer(0);
     var line = $("starter-line");
     if (state.randomStarter) {
-      line.textContent = "Spieler " + (state.starter + 1) + " beginnt mit dem Beschreiben.";
+      line.textContent = playerLabel(state.starter) + " beginnt mit dem Beschreiben.";
       line.style.display = "";
     } else {
       line.style.display = "none";
@@ -245,7 +284,7 @@
     state.imposterIdx.forEach(function (i) {
       var chip = document.createElement("div");
       chip.className = "imposter-chip";
-      chip.textContent = "Spieler " + (i + 1);
+      chip.textContent = playerLabel(i);
       list.appendChild(chip);
     });
 

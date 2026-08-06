@@ -102,6 +102,33 @@ body::before {
 .field small { display: block; color: rgba(255, 255, 255, 0.5); font-size: 12.5px; margin-top: 3px; font-weight: 400; }
 .field-text { padding-right: 14px; }
 
+/* ---------- Namensfelder ---------- */
+.field-names { flex-direction: column; align-items: stretch; }
+.field-names .field-text { padding-right: 0; }
+.opt {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4); margin-left: 6px;
+}
+.names-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.name-row { display: flex; align-items: center; gap: 10px; }
+.name-num {
+  width: 26px; height: 26px; flex: none; border-radius: 8px;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.1); font-size: 13px; font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+}
+.name-input {
+  flex: 1; min-width: 0; font-family: inherit; font-size: 15px; font-weight: 600;
+  color: #fff; background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
+  padding: 11px 14px; transition: border-color .15s, background .15s;
+}
+.name-input::placeholder { color: rgba(255, 255, 255, 0.35); font-weight: 400; }
+.name-input:focus {
+  outline: none; background: rgba(255, 255, 255, 0.14);
+  border-color: var(--green-400);
+}
+
 /* ---------- Stepper ---------- */
 .stepper { display: flex; align-items: center; gap: 4px; }
 .step-btn {
