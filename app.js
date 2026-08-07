@@ -66,23 +66,47 @@
     "São Paulo FC": "FC São Paulo", "Vasco da Gama": "CR Vasco da Gama",
     "Corinthians": "Corinthians São Paulo", "SC Braga": "Sporting Braga",
     "RC Strasbourg": "Racing Straßburg", "Tigres UANL": "UANL Tigres",
-    "CD Guadalajara": "Deportivo Guadalajara", "RCD Espanyol": "Espanyol Barcelona"
+    "CD Guadalajara": "Deportivo Guadalajara", "RCD Espanyol": "Espanyol Barcelona",
+    "Cruzeiro": "Cruzeiro Belo Horizonte", "Grêmio": "Grêmio Porto Alegre",
+    "Flamengo": "Flamengo Rio de Janeiro", "Palmeiras": "Palmeiras São Paulo",
+    "Fluminense": "Fluminense Rio de Janeiro", "Botafogo": "Botafogo FR",
+    "SC Internacional": "Internacional Porto Alegre"
   };
   var logoCache = {};
+
+  function firstPage(d) {
+    var pages = d && d.query && d.query.pages;
+    if (!pages) return null;
+    for (var k in pages) { return pages[k]; }
+    return null;
+  }
 
   function fetchClubLogo(club, cb) {
     var q = LOGO_QUERY[club.name] || club.name;
     if (Object.prototype.hasOwnProperty.call(logoCache, q)) { cb(logoCache[q]); return; }
-    var url = "https://de.wikipedia.org/w/api.php?action=query&format=json&origin=*" +
+    function done(src) { logoCache[q] = src || null; cb(src || null); }
+    // 1) Passenden Wikipedia-Artikel finden: Wikidata-ID + Fallback-Artikelbild
+    var url1 = "https://de.wikipedia.org/w/api.php?action=query&format=json&origin=*" +
       "&generator=search&gsrsearch=" + encodeURIComponent(q) + "&gsrlimit=1&gsrnamespace=0" +
-      "&prop=pageimages&piprop=thumbnail&pithumbsize=240";
+      "&prop=pageprops|pageimages&ppprop=wikibase_item&piprop=thumbnail&pithumbsize=240";
     try {
-      fetch(url).then(function (r) { return r.json(); }).then(function (d) {
-        var src = null, pages = d && d.query && d.query.pages;
-        if (pages) { for (var k in pages) { if (pages[k].thumbnail && pages[k].thumbnail.source) { src = pages[k].thumbnail.source; break; } } }
-        logoCache[q] = src; cb(src);
-      }).catch(function () { logoCache[q] = null; cb(null); });
-    } catch (e) { logoCache[q] = null; cb(null); }
+      fetch(url1).then(function (r) { return r.json(); }).then(function (d) {
+        var page = firstPage(d);
+        var qid = page && page.pageprops && page.pageprops.wikibase_item;
+        var fallback = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
+        if (!qid) { done(fallback); return; }
+        // 2) Wikidata P154 (= Logo) abfragen, das ist gezielt das Wappen
+        var url2 = "https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&origin=*" +
+          "&property=P154&entity=" + qid;
+        fetch(url2).then(function (r) { return r.json(); }).then(function (w) {
+          var file = null;
+          try { file = w.claims.P154[0].mainsnak.datavalue.value; } catch (e) { file = null; }
+          if (file) {
+            done("https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=240");
+          } else { done(fallback); }
+        }).catch(function () { done(fallback); });
+      }).catch(function () { done(null); });
+    } catch (e) { done(null); }
   }
 
   function hideCrest(chipId, imgId) {
