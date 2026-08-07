@@ -119,10 +119,12 @@
     } catch (e) { cb(null); }
   }
 
-  function fetchClubLogo(club, cb) {
-    var key = club.name;
-    if (Object.prototype.hasOwnProperty.call(logoCache, key)) { cb(logoCache[key]); return; }
-    // Fallback-Kette: erst Spezial-Suchbegriff, dann der reine Vereinsname
+  // Direkte, transparente Wappen-Datei (Commons) für Vereine, deren Auto-Logo einen Hintergrund hat
+  var LOGO_FILE = {
+    "FC Barcelona": "FC Barcelona (crest).svg"
+  };
+
+  function runLogoChain(key, cb) {
     var queries = [];
     if (LOGO_QUERY[key]) queries.push(LOGO_QUERY[key]);
     queries.push(key);
@@ -133,6 +135,21 @@
         else { tryNext(i + 1); }
       });
     })(0);
+  }
+
+  function fetchClubLogo(club, cb) {
+    var key = club.name;
+    if (Object.prototype.hasOwnProperty.call(logoCache, key)) { cb(logoCache[key]); return; }
+    if (LOGO_FILE[key]) {
+      // Direkte transparente Datei versuchen; lädt sie nicht, normale Suche als Fallback
+      var direct = "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(LOGO_FILE[key]) + "?width=256";
+      var test = new Image();
+      test.onload = function () { logoCache[key] = direct; cb(direct); };
+      test.onerror = function () { runLogoChain(key, cb); };
+      test.src = direct;
+      return;
+    }
+    runLogoChain(key, cb);
   }
 
   // Wappen der Runde vorab laden (Verein ist für alle gleich), damit es beim Aufdecken sofort da ist
