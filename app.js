@@ -54,6 +54,55 @@
     "Argentinien": "Südamerika", "Brasilien": "Südamerika", "Ägypten": "Afrika"
   };
 
+  // ---------- Vereinswappen (zur Laufzeit aus Wikipedia geladen) ----------
+  // Suchbegriff-Overrides, wo der reine Vereinsname mehrdeutig ist
+  var LOGO_QUERY = {
+    "Racing Club": "Racing Club de Avellaneda", "Independiente": "CA Independiente Avellaneda",
+    "Al-Hilal": "al-Hilal Riad", "Al-Nassr": "al-Nassr Riad", "Al-Ittihad": "Ittihad Dschidda",
+    "Al-Ahli": "al-Ahli Dschidda", "Al Ahly": "al-Ahly Kairo", "Zamalek": "Zamalek SC Kairo",
+    "Santos FC": "FC Santos", "Crystal Palace": "Crystal Palace Fußballverein",
+    "Fiorentina": "AC Florenz", "Torino FC": "FC Turin", "Genoa CFC": "CFC Genua",
+    "Girona FC": "FC Girona", "Getafe CF": "FC Getafe", "Sunderland AFC": "AFC Sunderland",
+    "São Paulo FC": "FC São Paulo", "Vasco da Gama": "CR Vasco da Gama",
+    "Corinthians": "Corinthians São Paulo", "SC Braga": "Sporting Braga",
+    "RC Strasbourg": "Racing Straßburg", "Tigres UANL": "UANL Tigres",
+    "CD Guadalajara": "Deportivo Guadalajara", "RCD Espanyol": "Espanyol Barcelona"
+  };
+  var logoCache = {};
+
+  function fetchClubLogo(club, cb) {
+    var q = LOGO_QUERY[club.name] || club.name;
+    if (Object.prototype.hasOwnProperty.call(logoCache, q)) { cb(logoCache[q]); return; }
+    var url = "https://de.wikipedia.org/w/api.php?action=query&format=json&origin=*" +
+      "&generator=search&gsrsearch=" + encodeURIComponent(q) + "&gsrlimit=1&gsrnamespace=0" +
+      "&prop=pageimages&piprop=thumbnail&pithumbsize=240";
+    try {
+      fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+        var src = null, pages = d && d.query && d.query.pages;
+        if (pages) { for (var k in pages) { if (pages[k].thumbnail && pages[k].thumbnail.source) { src = pages[k].thumbnail.source; break; } } }
+        logoCache[q] = src; cb(src);
+      }).catch(function () { logoCache[q] = null; cb(null); });
+    } catch (e) { logoCache[q] = null; cb(null); }
+  }
+
+  function hideCrest(chipId, imgId) {
+    var chip = $(chipId), img = $(imgId);
+    chip.style.display = "none"; img.removeAttribute("src");
+  }
+
+  function showCrest(chipId, imgId, club) {
+    var chip = $(chipId), img = $(imgId);
+    chip.style.display = "none";                 // erst zeigen, wenn Logo wirklich geladen ist
+    img.onload = function () { chip.style.display = "flex"; };
+    img.onerror = function () { chip.style.display = "none"; };
+    var mine = club.name;
+    img.setAttribute("data-club", mine);
+    fetchClubLogo(club, function (src) {
+      if (img.getAttribute("data-club") !== mine) return; // Karte wurde inzwischen gewechselt
+      if (src) { img.src = src; } else { img.removeAttribute("src"); chip.style.display = "none"; }
+    });
+  }
+
   // Kleiner, bewusst vager Tipp NUR für den Imposter
   function impostorHint() {
     var parts = state.word.hint.split(" · ");
@@ -232,11 +281,14 @@
       word.classList.add("imposter");
       hint.textContent = role.hint ? "Tipp: " + role.hint : "";
       hint.classList.toggle("visible", !!role.hint);
+      hideCrest("reveal-crest", "reveal-crest-img"); // Imposter sieht kein Wappen
     } else {
       label.textContent = subjectLabel();
       label.style.display = "";
       word.textContent = role.word;
       word.classList.remove("imposter");
+      if (state.mode === "clubs") { showCrest("reveal-crest", "reveal-crest-img", state.word); }
+      else { hideCrest("reveal-crest", "reveal-crest-img"); }
       // Hilfe für den Fall, dass man den Spieler nicht kennt: Position + Nationalland
       hint.textContent = state.word.hint;
       hint.classList.add("visible");
@@ -329,6 +381,9 @@
   function showResult() {
     stopTimer();
     $("result-word").textContent = state.word.name;
+
+    if (state.mode === "clubs") { showCrest("result-crest", "result-crest-img", state.word); }
+    else { hideCrest("result-crest", "result-crest-img"); }
 
     var kicker = $("imposter-kicker");
     kicker.textContent = state.imposterIdx.length > 1 ? "Die Imposter waren" : "Der Imposter war";

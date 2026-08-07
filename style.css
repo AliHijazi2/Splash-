@@ -233,6 +233,14 @@ body::before {
   border: 2px solid rgba(255, 255, 255, 0.18);
   color: #fff;
 }
+.crest-chip {
+  width: 96px; height: 96px; margin: 0 auto 16px; padding: 10px;
+  background: #ffffff; border-radius: 22px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+.crest-img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+.result-crest { margin-bottom: 18px; }
 .reveal-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255, 255, 255, 0.75); font-weight: 700; margin-bottom: 14px; }
 .reveal-word { font-size: 30px; font-weight: 800; line-height: 1.15; color: #fff; }
 .reveal-word.imposter { color: #ff4d4d; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
