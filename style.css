@@ -229,20 +229,21 @@ body::before {
 
 .pass-reveal {
   transform: rotateY(180deg);
-  background: linear-gradient(160deg, #ffffff, #eef6f0);
-  color: var(--ink);
+  background: linear-gradient(160deg, var(--green-400), var(--green-700));
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
 }
-.reveal-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--green-700); font-weight: 700; margin-bottom: 14px; }
-.reveal-word { font-size: 30px; font-weight: 800; line-height: 1.15; }
-.reveal-word.imposter { color: var(--danger); }
+.reveal-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255, 255, 255, 0.75); font-weight: 700; margin-bottom: 14px; }
+.reveal-word { font-size: 30px; font-weight: 800; line-height: 1.15; color: #fff; }
+.reveal-word.imposter { color: #ffd7d7; }
 .reveal-hint {
   display: none; margin-top: 18px; font-size: 14px; font-weight: 700;
-  color: #3f6151; background: #e9f4ed; border: 1px solid #d5e8dc;
+  color: #fff; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 999px; padding: 8px 16px; letter-spacing: 0.2px;
 }
 .reveal-hint.visible { display: inline-block; animation: fade .25s ease; }
 .btn-hide { margin-top: 30px; }
-.pass-reveal .btn-hide { background: var(--green-700); color: #fff; }
+.pass-reveal .btn-hide { background: rgba(0, 0, 0, 0.32); color: #fff; }
 
 .reveal-foot { text-align: center; padding-top: 6px; }
 
