@@ -49,9 +49,13 @@
     "Deutschland": "Europa", "Italien": "Europa", "Frankreich": "Europa", "Niederlande": "Europa",
     "Portugal": "Europa", "Türkei": "Europa", "Belgien": "Europa", "Griechenland": "Europa",
     "Österreich": "Europa", "Schweiz": "Europa", "Ukraine": "Europa", "Kroatien": "Europa",
-    "Serbien": "Europa", "Tschechien": "Europa", "Norwegen": "Europa",
-    "Saudi-Arabien": "Asien", "USA": "Nordamerika", "Mexiko": "Nordamerika",
-    "Argentinien": "Südamerika", "Brasilien": "Südamerika", "Ägypten": "Afrika"
+    "Serbien": "Europa", "Tschechien": "Europa", "Norwegen": "Europa", "Polen": "Europa",
+    "Dänemark": "Europa", "Schweden": "Europa",
+    "Saudi-Arabien": "Asien", "Japan": "Asien", "Katar": "Asien",
+    "USA": "Nordamerika", "Mexiko": "Nordamerika",
+    "Argentinien": "Südamerika", "Brasilien": "Südamerika", "Uruguay": "Südamerika",
+    "Kolumbien": "Südamerika", "Chile": "Südamerika",
+    "Ägypten": "Afrika", "Marokko": "Afrika", "Tunesien": "Afrika", "Südafrika": "Afrika"
   };
 
   // ---------- Vereinswappen (zur Laufzeit aus Wikipedia geladen) ----------
@@ -71,7 +75,16 @@
     "Cruzeiro": "Cruzeiro Belo Horizonte", "Grêmio": "Grêmio Porto Alegre",
     "Flamengo": "Flamengo Rio de Janeiro", "Palmeiras": "Palmeiras São Paulo",
     "Fluminense": "Fluminense Rio de Janeiro", "Botafogo": "Botafogo FR",
-    "SC Internacional": "Internacional Porto Alegre"
+    "SC Internacional": "Internacional Porto Alegre",
+    "Southampton FC": "FC Southampton", "Middlesbrough FC": "FC Middlesbrough",
+    "Stade de Reims": "Stade Reims", "Montpellier HSC": "HSC Montpellier",
+    "Stade Brest": "Stade Brest 29", "Toulouse FC": "FC Toulouse",
+    "Union Saint-Gilloise": "Royale Union Saint-Gilloise", "Aberdeen FC": "FC Aberdeen",
+    "FK Partizan Belgrad": "Partizan Belgrad", "Cruz Azul": "CD Cruz Azul",
+    "RB Bragantino": "Red Bull Bragantino", "CA San Lorenzo": "San Lorenzo de Almagro",
+    "Colo-Colo": "CSD Colo-Colo", "Al-Shabab": "al-Shabab Riad",
+    "Al-Ettifaq": "al-Ettifaq", "Al-Sadd": "al-Sadd Sport Club",
+    "Pumas UNAM": "Club Universidad Nacional", "Vitesse Arnheim": "Vitesse Arnheim"
   };
   var logoCache = {};
 
