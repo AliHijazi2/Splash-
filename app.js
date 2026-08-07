@@ -6,6 +6,7 @@
 
   // ---------- State ----------
   var state = {
+    mode: "players",  // "players" (Fußballer) oder "clubs" (Vereine)
     players: 4,
     imposters: 1,
     hint: false,
@@ -32,6 +33,15 @@
     return arr;
   }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  // Liste des aktuellen Modus (Fußballer oder Vereine)
+  function currentList() {
+    return state.mode === "clubs" ? window.CLUBS : window.FOOTBALLERS;
+  }
+  // Bezeichnung auf der Aufdeck-Karte je nach Modus
+  function subjectLabel() {
+    return state.mode === "clubs" ? "Dein Verein" : "Dein Fußballer";
+  }
 
   // Anzeigename: eigener Name falls eingegeben, sonst "Spieler N"
   function playerLabel(i) {
@@ -109,6 +119,17 @@
     });
   }
 
+  function bindModeSwitch() {
+    document.querySelectorAll("#mode-switch .mode-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        state.mode = btn.getAttribute("data-mode");
+        document.querySelectorAll("#mode-switch .mode-btn").forEach(function (b) {
+          b.classList.toggle("active", b === btn);
+        });
+      });
+    });
+  }
+
   function bindToggles() {
     $("hint-toggle").addEventListener("click", function () {
       state.hint = !state.hint;
@@ -125,7 +146,7 @@
   // ---------- Runde vorbereiten ----------
   function buildRound() {
     clampImposters();
-    state.word = pick(window.FOOTBALLERS);
+    state.word = pick(currentList());
 
     // Imposter-Indizes auslosen
     var idx = [];
@@ -191,7 +212,7 @@
       hint.textContent = role.hint ? "Tipp: " + role.hint : "";
       hint.classList.toggle("visible", !!role.hint);
     } else {
-      label.textContent = "Dein Fußballer";
+      label.textContent = subjectLabel();
       word.textContent = role.word;
       word.classList.remove("imposter");
       // Hilfe für den Fall, dass man den Spieler nicht kennt: Position + Nationalland
@@ -342,6 +363,7 @@
   // ---------- Init ----------
   document.addEventListener("DOMContentLoaded", function () {
     renderSteppers();
+    bindModeSwitch();
     bindSteppers();
     bindToggles();
     bindTimer();

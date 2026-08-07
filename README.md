@@ -15,7 +15,7 @@ Alternativ über **GitHub Pages** hosten und den Link am Handy öffnen (Repo →
 
 ## Ablauf
 
-1. **Einstellungen:** Anzahl Spieler (3–15), Anzahl Imposter, optionaler Hinweis für den Imposter, zufälliger Startspieler.
+1. **Einstellungen:** Modus (Fußballer oder Vereine), Anzahl Spieler (3–15), Anzahl Imposter, optionaler Hinweis für den Imposter, zufälliger Startspieler.
 2. **Aufdecken:** Das Handy geht reihum. Jeder tippt seine Karte an und sieht entweder den Fußballer (mit Position und Nationalland als Hilfe, falls man ihn nicht kennt) oder „Du bist der Imposter“.
 3. **Diskutieren:** Reihum beschreibt jeder seinen Spieler. Ein optionaler Timer hilft.
 4. **Auflösen:** Das Wort und der/die Imposter werden aufgedeckt. „Neue Runde“ startet mit neuem Spieler.

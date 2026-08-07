@@ -85,6 +85,23 @@ body::before {
 .hero h1 span { color: var(--lime); }
 .subtitle { margin: 8px 0 0; color: rgba(255, 255, 255, 0.6); font-size: 15px; }
 
+/* ---------- Modus-Umschalter ---------- */
+.mode-switch {
+  display: flex; gap: 4px; padding: 4px; margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+.mode-btn {
+  flex: 1; border: none; cursor: pointer; font-family: inherit;
+  font-size: 15.5px; font-weight: 700; padding: 12px; border-radius: 12px;
+  background: transparent; color: rgba(255, 255, 255, 0.6);
+  transition: background .18s, color .18s;
+}
+.mode-btn.active {
+  background: linear-gradient(145deg, var(--green-400), var(--green-500));
+  color: #04240f; box-shadow: 0 6px 16px rgba(18, 163, 90, 0.35);
+}
+
 /* ---------- Card ---------- */
 .card {
   background: var(--card);

@@ -20,7 +20,12 @@
           <img class="logo-img" src="logo.jpg" alt="KickGuess Logo" />
         </div>
         <h1>Kick<span>Guess</span></h1>
-        <p class="subtitle">Wer kennt den Spieler nicht?</p>
+        <p class="subtitle">Wer kennt es nicht?</p>
+      </div>
+
+      <div class="mode-switch" id="mode-switch">
+        <button class="mode-btn active" data-mode="players">Fußballer</button>
+        <button class="mode-btn" data-mode="clubs">Vereine</button>
       </div>
 
       <div class="card">
@@ -45,7 +50,7 @@
         <div class="field field-row">
           <div class="field-text">
             <label>Hinweis für Imposter</label>
-            <small>Der Imposter bekommt einen kleinen Tipp (z.&nbsp;B. Position)</small>
+            <small>Der Imposter bekommt denselben kleinen Tipp wie die anderen</small>
           </div>
           <button class="toggle" id="hint-toggle" role="switch" aria-checked="false"></button>
         </div>
@@ -153,6 +158,7 @@
   </div>
 
   <script src="players.js"></script>
+  <script src="clubs.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
