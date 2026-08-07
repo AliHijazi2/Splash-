@@ -66,7 +66,7 @@
     "São Paulo FC": "FC São Paulo", "Vasco da Gama": "CR Vasco da Gama",
     "Corinthians": "Corinthians São Paulo", "SC Braga": "Sporting Braga",
     "RC Strasbourg": "Racing Straßburg", "Tigres UANL": "UANL Tigres",
-    "CD Guadalajara": "Deportivo Guadalajara", "RCD Espanyol": "Espanyol Barcelona",
+    "CD Guadalajara": "Chivas Guadalajara", "RCD Espanyol": "Espanyol Barcelona",
     "Cruzeiro": "Cruzeiro Belo Horizonte", "Grêmio": "Grêmio Porto Alegre",
     "Flamengo": "Flamengo Rio de Janeiro", "Palmeiras": "Palmeiras São Paulo",
     "Fluminense": "Fluminense Rio de Janeiro", "Botafogo": "Botafogo FR",
@@ -81,32 +81,50 @@
     return null;
   }
 
-  function fetchClubLogo(club, cb) {
-    var q = LOGO_QUERY[club.name] || club.name;
-    if (Object.prototype.hasOwnProperty.call(logoCache, q)) { cb(logoCache[q]); return; }
-    function done(src) { logoCache[q] = src || null; cb(src || null); }
-    // 1) Passenden Wikipedia-Artikel finden: Wikidata-ID + Fallback-Artikelbild
+  // Einen Suchbegriff auflösen: Wikipedia-Treffer -> Wikidata P154 (Logo) -> Fallback Artikelbild
+  function resolveOne(q, cb) {
     var url1 = "https://de.wikipedia.org/w/api.php?action=query&format=json&origin=*" +
       "&generator=search&gsrsearch=" + encodeURIComponent(q) + "&gsrlimit=1&gsrnamespace=0" +
-      "&prop=pageprops|pageimages&ppprop=wikibase_item&piprop=thumbnail&pithumbsize=240";
+      "&prop=pageprops|pageimages&ppprop=wikibase_item&piprop=thumbnail&pithumbsize=256";
     try {
       fetch(url1).then(function (r) { return r.json(); }).then(function (d) {
         var page = firstPage(d);
         var qid = page && page.pageprops && page.pageprops.wikibase_item;
         var fallback = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
-        if (!qid) { done(fallback); return; }
-        // 2) Wikidata P154 (= Logo) abfragen, das ist gezielt das Wappen
+        if (!qid) { cb(fallback); return; }
         var url2 = "https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&origin=*" +
           "&property=P154&entity=" + qid;
         fetch(url2).then(function (r) { return r.json(); }).then(function (w) {
           var file = null;
           try { file = w.claims.P154[0].mainsnak.datavalue.value; } catch (e) { file = null; }
           if (file) {
-            done("https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=240");
-          } else { done(fallback); }
-        }).catch(function () { done(fallback); });
-      }).catch(function () { done(null); });
-    } catch (e) { done(null); }
+            cb("https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=256");
+          } else { cb(fallback); }
+        }).catch(function () { cb(fallback); });
+      }).catch(function () { cb(null); });
+    } catch (e) { cb(null); }
+  }
+
+  function fetchClubLogo(club, cb) {
+    var key = club.name;
+    if (Object.prototype.hasOwnProperty.call(logoCache, key)) { cb(logoCache[key]); return; }
+    // Fallback-Kette: erst Spezial-Suchbegriff, dann der reine Vereinsname
+    var queries = [];
+    if (LOGO_QUERY[key]) queries.push(LOGO_QUERY[key]);
+    queries.push(key);
+    (function tryNext(i) {
+      if (i >= queries.length) { logoCache[key] = null; cb(null); return; }
+      resolveOne(queries[i], function (src) {
+        if (src) { logoCache[key] = src; cb(src); }
+        else { tryNext(i + 1); }
+      });
+    })(0);
+  }
+
+  // Wappen der Runde vorab laden (Verein ist für alle gleich), damit es beim Aufdecken sofort da ist
+  function prefetchRoundLogo() {
+    if (state.mode !== "clubs" || !state.word) return;
+    fetchClubLogo(state.word, function (src) { if (src) { var im = new Image(); im.src = src; } });
   }
 
   function hideCrest(chipId, imgId) {
@@ -266,6 +284,8 @@
 
     state.current = 0;
     state.starter = Math.floor(Math.random() * state.players);
+
+    prefetchRoundLogo(); // Vereinswappen schon jetzt laden
   }
 
   // aktueller Spieler-Index gemäß zufälliger Ziehreihenfolge
