@@ -48,7 +48,10 @@
     "England": "Europa", "Schottland": "Europa", "Wales": "Europa", "Spanien": "Europa",
     "Deutschland": "Europa", "Italien": "Europa", "Frankreich": "Europa", "Niederlande": "Europa",
     "Portugal": "Europa", "Türkei": "Europa", "Belgien": "Europa", "Griechenland": "Europa",
-    "Saudi-Arabien": "Asien", "USA": "Nordamerika", "Argentinien": "Südamerika", "Brasilien": "Südamerika"
+    "Österreich": "Europa", "Schweiz": "Europa", "Ukraine": "Europa", "Kroatien": "Europa",
+    "Serbien": "Europa", "Tschechien": "Europa", "Norwegen": "Europa",
+    "Saudi-Arabien": "Asien", "USA": "Nordamerika", "Mexiko": "Nordamerika",
+    "Argentinien": "Südamerika", "Brasilien": "Südamerika", "Ägypten": "Afrika"
   };
 
   // Kleiner, bewusst vager Tipp NUR für den Imposter
