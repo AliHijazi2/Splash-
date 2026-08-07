@@ -226,13 +226,15 @@
     var hint = $("reveal-hint");
 
     if (role.imposter) {
-      label.textContent = "Psst …";
+      label.textContent = "";
+      label.style.display = "none";
       word.textContent = "Du bist der Imposter";
       word.classList.add("imposter");
       hint.textContent = role.hint ? "Tipp: " + role.hint : "";
       hint.classList.toggle("visible", !!role.hint);
     } else {
       label.textContent = subjectLabel();
+      label.style.display = "";
       word.textContent = role.word;
       word.classList.remove("imposter");
       // Hilfe für den Fall, dass man den Spieler nicht kennt: Position + Nationalland
