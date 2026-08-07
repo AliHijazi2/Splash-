@@ -43,6 +43,23 @@
     return state.mode === "clubs" ? "Dein Verein" : "Dein Fußballer";
   }
 
+  // Land -> Kontinent (für den vagen Imposter-Tipp im Vereins-Modus)
+  var CONTINENTS = {
+    "England": "Europa", "Schottland": "Europa", "Wales": "Europa", "Spanien": "Europa",
+    "Deutschland": "Europa", "Italien": "Europa", "Frankreich": "Europa", "Niederlande": "Europa",
+    "Portugal": "Europa", "Türkei": "Europa", "Belgien": "Europa", "Griechenland": "Europa",
+    "Saudi-Arabien": "Asien", "USA": "Nordamerika", "Argentinien": "Südamerika", "Brasilien": "Südamerika"
+  };
+
+  // Kleiner, bewusst vager Tipp NUR für den Imposter
+  function impostorHint() {
+    var parts = state.word.hint.split(" · ");
+    if (state.mode === "clubs") {
+      return CONTINENTS[parts[0]] || "International"; // nur Kontinent, kein Land/Liga
+    }
+    return parts[0]; // Fußballer: nur die Position, kein Land
+  }
+
   // Anzeigename: eigener Name falls eingegeben, sonst "Spieler N"
   function playerLabel(i) {
     var n = (state.names[i] || "").trim();
@@ -161,7 +178,7 @@
       state.roles.push({
         imposter: isImp,
         word: isImp ? null : state.word.name,
-        hint: isImp && state.hint ? state.word.hint : null
+        hint: (isImp && state.hint) ? impostorHint() : null
       });
     }
 
