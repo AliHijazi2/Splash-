@@ -235,7 +235,7 @@ body::before {
 }
 .reveal-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255, 255, 255, 0.75); font-weight: 700; margin-bottom: 14px; }
 .reveal-word { font-size: 30px; font-weight: 800; line-height: 1.15; color: #fff; }
-.reveal-word.imposter { color: #ffd7d7; }
+.reveal-word.imposter { color: #ff4d4d; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
 .reveal-hint {
   display: none; margin-top: 18px; font-size: 14px; font-weight: 700;
   color: #fff; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.28);
