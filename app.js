@@ -54,6 +54,27 @@
     "Argentinien": "Südamerika", "Brasilien": "Südamerika", "Ägypten": "Afrika"
   };
 
+  // Textfarbe (dunkel/hell) passend zur Hintergrundfarbe
+  function textOn(hex) {
+    var c = (hex || "").replace("#", "");
+    if (c.length === 3) c = c.split("").map(function (x) { return x + x; }).join("");
+    var r = parseInt(c.substr(0, 2), 16), g = parseInt(c.substr(2, 2), 16), b = parseInt(c.substr(4, 2), 16);
+    var L = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return L > 0.6 ? "#141414" : "#ffffff";
+  }
+
+  // Stilisiertes Wappen als SVG (Vereinsfarben + Kürzel)
+  function clubCrestSVG(club) {
+    var c1 = club.c1 || "#0b6b3a", c2 = club.c2 || "#ffffff", ab = club.ab || "?";
+    var fs = ab.length <= 2 ? 40 : (ab.length === 3 ? 31 : 24);
+    return '<svg viewBox="0 0 100 100" class="crest-svg" aria-hidden="true">' +
+      '<circle cx="50" cy="50" r="48" fill="#ffffff"/>' +
+      '<circle cx="50" cy="50" r="43" fill="' + c1 + '" stroke="' + c2 + '" stroke-width="6"/>' +
+      '<text x="50" y="52" text-anchor="middle" dominant-baseline="central" ' +
+      'font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-weight="800" ' +
+      'font-size="' + fs + '" fill="' + textOn(c1) + '">' + ab + '</text></svg>';
+  }
+
   // Kleiner, bewusst vager Tipp NUR für den Imposter
   function impostorHint() {
     var parts = state.word.hint.split(" · ");
@@ -224,6 +245,7 @@
     var label = $("reveal-label");
     var word = $("reveal-word");
     var hint = $("reveal-hint");
+    var crest = $("reveal-crest");
 
     if (role.imposter) {
       label.textContent = "";
@@ -232,11 +254,21 @@
       word.classList.add("imposter");
       hint.textContent = role.hint ? "Tipp: " + role.hint : "";
       hint.classList.toggle("visible", !!role.hint);
+      crest.innerHTML = "";               // Imposter sieht kein Wappen (wäre verräterisch)
+      crest.style.display = "none";
     } else {
       label.textContent = subjectLabel();
       label.style.display = "";
       word.textContent = role.word;
       word.classList.remove("imposter");
+      // Vereinswappen für Nicht-Imposter im Vereins-Modus
+      if (state.mode === "clubs") {
+        crest.innerHTML = clubCrestSVG(state.word);
+        crest.style.display = "";
+      } else {
+        crest.innerHTML = "";
+        crest.style.display = "none";
+      }
       // Hilfe für den Fall, dass man den Spieler nicht kennt: Position + Nationalland
       hint.textContent = state.word.hint;
       hint.classList.add("visible");
@@ -329,6 +361,15 @@
   function showResult() {
     stopTimer();
     $("result-word").textContent = state.word.name;
+
+    var rcrest = $("result-crest");
+    if (state.mode === "clubs") {
+      rcrest.innerHTML = clubCrestSVG(state.word);
+      rcrest.style.display = "";
+    } else {
+      rcrest.innerHTML = "";
+      rcrest.style.display = "none";
+    }
 
     var kicker = $("imposter-kicker");
     kicker.textContent = state.imposterIdx.length > 1 ? "Die Imposter waren" : "Der Imposter war";
