@@ -224,7 +224,6 @@ window.FOOTBALLERS = [
   { name: "Eberechi Eze", hint: "Mittelfeld · England" },
   { name: "Cole Palmer", hint: "Mittelfeld · England" },
   { name: "Aleksandar Pavlović", hint: "Mittelfeld · Deutschland" },
-  { name: "Angelo Stiller", hint: "Mittelfeld · Deutschland" },
   { name: "Julian Brandt", hint: "Mittelfeld · Deutschland" },
   { name: "Arda Güler", hint: "Mittelfeld · Türkei" },
   { name: "Xavi Simons", hint: "Mittelfeld · Niederlande" },
@@ -275,7 +274,6 @@ window.FOOTBALLERS = [
   { name: "Hirving Lozano", hint: "Flügel · Mexiko" },
   { name: "Kaoru Mitoma", hint: "Flügel · Japan" },
   { name: "Takefusa Kubo", hint: "Flügel · Japan" },
-  { name: "Wataru Endo", hint: "Mittelfeld · Japan" },
   { name: "Karim Adeyemi", hint: "Flügel · Deutschland" },
   { name: "Deniz Undav", hint: "Stürmer · Deutschland" },
   { name: "Nick Woltemade", hint: "Stürmer · Deutschland" },
@@ -285,7 +283,6 @@ window.FOOTBALLERS = [
   { name: "Moise Kean", hint: "Stürmer · Italien" },
   { name: "Mateo Retegui", hint: "Stürmer · Italien" },
   { name: "Gianluca Scamacca", hint: "Stürmer · Italien" },
-  { name: "Timothy Weah", hint: "Flügel · USA" },
   { name: "Giovanni Reyna", hint: "Mittelfeld · USA" },
   { name: "Andrej Kramarić", hint: "Stürmer · Kroatien" }
 ].filter(function (p) { return p.name && p.hint; });
