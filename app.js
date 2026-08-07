@@ -57,6 +57,7 @@
   // ---------- Vereinswappen (zur Laufzeit aus Wikipedia geladen) ----------
   // Suchbegriff-Overrides, wo der reine Vereinsname mehrdeutig ist
   var LOGO_QUERY = {
+    "Bayer Leverkusen": "Bayer 04 Leverkusen",
     "Racing Club": "Racing Club de Avellaneda", "Independiente": "CA Independiente Avellaneda",
     "Al-Hilal": "al-Hilal Riad", "Al-Nassr": "al-Nassr Riad", "Al-Ittihad": "Ittihad Dschidda",
     "Al-Ahli": "al-Ahli Dschidda", "Al Ahly": "al-Ahly Kairo", "Zamalek": "Zamalek SC Kairo",
